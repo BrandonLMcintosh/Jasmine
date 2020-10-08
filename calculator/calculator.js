@@ -17,6 +17,11 @@ function getCurrentUIValues() {
   }
 }
 
+// monthly payment=(P×i)/(1−(1+i)^n)
+// P = Amount of principle
+// i = periodic interest rate (in our case yearly rate ÷ 12)
+// n = total number of payments (years × 12)
+
 // Get the inputs from the DOM.
 // Put some default values in the inputs
 // Call a function to calculate the current monthly payment
