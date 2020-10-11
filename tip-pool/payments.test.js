@@ -22,15 +22,8 @@ describe('Tests for payments', function(){
 
     it('should only create one table row for each appended payment on the table (appendPaymentTable)', function(){
         appendPaymentTable(createCurPayment());
-        function anonymous(){
-            let tableRows = document.querySelectorAll('#paymentTable tbody tr');
-            count = 0;
-            for(let row of tableRows){
-                count++;
-            }
-            return count;
-        }
-        expect(anonymous()).toEqual(1);
+        let tableRows = document.querySelectorAll('#paymentTable tbody tr');
+        expect(Object.keys(tableRows).length).toEqual(1);
     });
 
     it('should handle multiple payments to the table (appendPaymentTable)', function(){
@@ -38,28 +31,14 @@ describe('Tests for payments', function(){
         appendPaymentTable(createCurPayment());
         appendPaymentTable(createCurPayment());
         appendPaymentTable(createCurPayment());
-        function anonymous(){
-            let tableRows = document.querySelectorAll('#paymentTable tbody tr');
-            count = 0;
-            for(let row of tableRows){
-                count++;
-            };
-            return count;
-        }
-        expect(anonymous()).toEqual(5);
+        let tableRows = document.querySelectorAll('#paymentTable tbody tr');
+        expect(Object.keys(tableRows).length).toEqual(4);
     });
 
-    it('should only append three TDs for each TR on the table (appendPaymentTable)', function(){
+    it('should only append 4 TDs for each TR on the table (appendPaymentTable)', function(){
         appendPaymentTable(createCurPayment());
-        function anonymous(){
-            let tableDatas = document.querySelectorAll('#paymentTable tbody tr:first-child td');
-            count = 0;
-            for(let data of tableDatas){
-                count++;
-            };
-            return count;
-        }
-        expect(anonymous()).toEqual(3);
+        let tableDatas = document.querySelectorAll('#paymentTable tbody tr:first-child td');
+        expect(Object.keys(tableDatas).length).toEqual(4);
     });
 
     it('should update the summary of payments once a new payment is submitted (updateSummary)', function(){
@@ -87,7 +66,15 @@ describe('Tests for payments', function(){
     });
 
     afterEach(function(){
+        serverId = 0;
         billAmtInput.value = '';
         tipAmtInput.value = '';
+        allPayments = {};
+        allServers = {};
+        serverTbody.innerHTML = '';
+        paymentTbody.innerHTML = '';
+        for(let td in summaryTds){
+            td.innerText = '';
+        };
     });
 });

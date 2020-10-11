@@ -1,4 +1,4 @@
-
+const paymentTable = document.querySelector('#paymentTable');
 // accepts 'tipAmt', 'billAmt', 'tipPercent' and sums total from allPayments objects
 function sumPaymentTotal(type) {
   let total = 0;
@@ -24,3 +24,12 @@ function appendTd(tr, value) {
 
   tr.append(newTd);
 }
+
+function appendDeleteBtn(tr){
+  let deleteButton = document.createElement('td');
+  deleteButton.innerText = 'X';
+
+  tr.append(deleteButton);
+}
+
+

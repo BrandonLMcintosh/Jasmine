@@ -37,12 +37,36 @@ describe('Tests for helpers', function(){
         expect(newTr.firstChild.innerText).toEqual('testing 12345');
         newTr = null;
     });
+
+    it('should append a delete button to the payment row (appendDeleteBtn)', function(){
+        billAmtInput.value = 100;
+        tipAmtInput.value = 10;
+        appendPaymentTable(createCurPayment());
+        let row = document.querySelectorAll('#paymentTable tbody tr td');
+        expect(Object.keys(row).length).toEqual(4);
+        expect(row[3].innerText).toEqual('X');
+        paymentTbody.innerHTML = '';
+    });
+
+    it('should append a delete button to the server row (appendDeleteBtn)', function(){
+        serverNameInput.value = 'Jessica';
+        submitServerInfo();
+        let table = document.querySelectorAll('#serverTable tbody tr td');
+        console.log(table);
+        expect(Object.keys(table).length).toEqual(3);
+        expect(table[2].innerText).toEqual('X');
+        serverTbody.innerHTML = '';
+    });
     afterEach(function(){
+        serverId = 0;
+        billAmtInput.value = '';
+        tipAmtInput.value = '';
         allPayments = {};
-        let payments = document.querySelectorAll('#paymentTable tbody');
-        payments.innerHTML = '';
+        allServers = {};
+        serverTbody.innerHTML = '';
+        paymentTbody.innerHTML = '';
         for(let td in summaryTds){
-            td.value = '';
+            td.innerText = '';
         };
     });
 });
