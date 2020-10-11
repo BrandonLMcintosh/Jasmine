@@ -29,7 +29,6 @@ function submitPaymentInfo(evt) {
     tipAmtInput.value = '';
   }
 }
-
 // createCurPayment() will return undefined with negative or empty inputs
 // positive billAmt is required but tip can be 0
 function createCurPayment() {
