@@ -3,7 +3,7 @@ describe('Tests for helpers', function(){
         billAmtInput.value = 100;
         tipAmtInput.value = 10;
         allPayments = {}
-        numPayments = 4;
+        numPayments = 3;
         for(i = 0; i < numPayments; i++){
             allPayments['payment' + (i+1)] = createCurPayment();
         }
@@ -13,13 +13,13 @@ describe('Tests for helpers', function(){
         expect(sumPaymentTotal('tipAmt')).toEqual(30);
     });
 
-    it('should still calculate sums if there are $0 values', function(){
-        billAmtInput.value = 0;
-        numPayments = 3;
-        for(i = 0; i < numPayments; i++){
-            allPayments['payment' + (i+1)] = createCurPayment();
+    it('should not include $0 payments', function(){
+        allPayments['payment5'] = {
+            billAmt: 0,
+            tipAmt: 0,
+            tipPercent: 0
         }
-        expect(sumPaymentTotal('billAmt')).toEqual(400);
+        expect(sumPaymentTotal('billAmt')).toEqual(300);
     });
 
     it('should calculate tip percentages', function(){
@@ -34,15 +34,13 @@ describe('Tests for helpers', function(){
     it('should append filled td into a TR upon request (appendTd)', function(){
         let newTr = document.createElement('tr');
         appendTd(newTr, 'testing 12345');
-        expect(newTr.firstChild.value).toEqual('testing 12345');
+        expect(newTr.firstChild.innerText).toEqual('testing 12345');
         newTr = null;
     });
     afterEach(function(){
         allPayments = {};
-        let paymentRows = document.querySelectorAll('#paymentTable tbody tr');
-        for(let row in paymentRows){
-            row.remove();
-        };
+        let payments = document.querySelectorAll('#paymentTable tbody');
+        payments.innerHTML = '';
         for(let td in summaryTds){
             td.value = '';
         };

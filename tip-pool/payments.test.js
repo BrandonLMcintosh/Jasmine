@@ -4,9 +4,9 @@ describe('Tests for payments', function(){
         tipAmtInput.value = 10;
     });
 
-    it('should create generate the current payment with user input (createCurPayment)', function(){
+    it('should generate the current payment with user input (createCurPayment)', function(){
         //should return a valid payment object in object format
-        expect(createCurPayment()).toEqual({billAmt: 100, tipAmt: 10, tipPercent: 10});
+        expect(createCurPayment()).toEqual({billAmt: '100', tipAmt: '10', tipPercent: 10});
     });
 
     it('should not generate the current payment with no entry in either billAmt or tipAmt', function(){
@@ -22,14 +22,15 @@ describe('Tests for payments', function(){
 
     it('should only create one table row for each appended payment on the table (appendPaymentTable)', function(){
         appendPaymentTable(createCurPayment());
-        expect(function(){
+        function anonymous(){
             let tableRows = document.querySelectorAll('#paymentTable tbody tr');
             count = 0;
             for(let row of tableRows){
                 count++;
             }
             return count;
-        }).toEqual(1);
+        }
+        expect(anonymous()).toEqual(1);
     });
 
     it('should handle multiple payments to the table (appendPaymentTable)', function(){
@@ -37,26 +38,28 @@ describe('Tests for payments', function(){
         appendPaymentTable(createCurPayment());
         appendPaymentTable(createCurPayment());
         appendPaymentTable(createCurPayment());
-        expect(function(){
+        function anonymous(){
             let tableRows = document.querySelectorAll('#paymentTable tbody tr');
             count = 0;
             for(let row of tableRows){
                 count++;
             };
             return count;
-        }).toEqual(4);
+        }
+        expect(anonymous()).toEqual(5);
     });
 
     it('should only append three TDs for each TR on the table (appendPaymentTable)', function(){
         appendPaymentTable(createCurPayment());
-        expect(function(){
-            let tableDatas = document.querySelectorAll('#paymentTable tbody tr td');
+        function anonymous(){
+            let tableDatas = document.querySelectorAll('#paymentTable tbody tr:first-child td');
             count = 0;
             for(let data of tableDatas){
                 count++;
             };
             return count;
-        }).toEqual(3);
+        }
+        expect(anonymous()).toEqual(3);
     });
 
     it('should update the summary of payments once a new payment is submitted (updateSummary)', function(){
@@ -75,11 +78,12 @@ describe('Tests for payments', function(){
         expect(values1 == values2).toEqual(false);
     });
 
-    it('should submit reset the input values after submitting payment (submitPaymentInfo)', function(){
+    it('should reset the input values after submitting payment (submitPaymentInfo)', function(){
         submitPaymentInfo();
-        expect(function(){
-            billAmtInput.value === '' && billAmtInput.value === '';
-        }).toEqual(true);
+        function anonymous(){
+            return billAmtInput.value === '' && tipAmtInput.value === '';
+        }
+        expect(anonymous()).toEqual(true);
     });
 
     afterEach(function(){
